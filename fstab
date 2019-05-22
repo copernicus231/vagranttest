@@ -1,0 +1,12 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# UUID=06b4f944-44b6-43d6-b0ab-52041c83026b LABEL=rootfs
+/dev/sda2           	/         	btrfs     	rw,relatime,space_cache,subvolid=5,subvol=/	0 0
+
+# UUID=563d4e99-ac46-4a24-8dfb-2dfab790f36c
+/dev/sda1           	none      	swap      	defaults  	0 0
+
+#EXTRA DISK
+/dev/sdb1 /home/${USERNAME} ext4  rw,relatime,data=ordered 0 2
