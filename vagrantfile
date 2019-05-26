@@ -1,6 +1,6 @@
 MACHINE_NAME = "archlinux1"
-DISK = ""
-USER_NAME=""
+DISK = "/home/copernicus/projects/efx/disks/disk1.vdi"
+USER_NAME="copernicus"
 BOX_RAM=10240
 BOX_HOME_SIZE=1*1024
 BOX_CPU_NUM=2
@@ -20,9 +20,23 @@ Vagrant.configure("2") do |config|
     end
     v.customize ['storageattach', :id, '--storagectl', 'IDE Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', DISK]
   end
+  #PACKAGE INSTALL AND UPDATE
   config.vm.provision "shell", path: "install.sh"
-  config.vm.provision "file", source: "lightdm.conf", destination: "/tmp/lightdm.conf"
-  config.vm.provision "file", source: "xinitrc",destination: "/tmp/.xinitrc"
-  config.vm.provision "file", source: "fstab",destination: "/tmp/fstab"
-  #config.vm.provision "shell", path: "configure.sh",args: USER_NAME
+
+  #Global configure
+  config.vm.provision "file", source: "lightdm.conf", destination: "lightdm.conf"
+  config.vm.provision "shell", path: "configure.sh"
+
+  #SETUP EXTERNAL SOURCE AS HOME
+  config.vm.provision "file",source: "xinitrc",destination: ".xinitrc"
+  config.vm.provision "file",source: "fstab",destination: "fstab"
+  config.vm.provision "file",source: "settings.xml",destination: "settings.xml"
+  config.vm.provision "disksetup",type:"shell",run:"never" do |s|
+    s.path="disksetup.sh"
+    s.args=USER_NAME
+  end
+  config.vm.provision "homesetup",type:"shell",run:"never" do |h|
+    h.path="homesetup.sh"
+    h.args=USER_NAME
+  end
 end
