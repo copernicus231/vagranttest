@@ -21,6 +21,7 @@ Vagrant.configure("2") do |config|
     v.customize ['storageattach', :id, '--storagectl', 'IDE Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', DISK]
   end
   #PACKAGE INSTALL AND UPDATE
+  config.vm.provision "file", source: "pkg", destination: "pkg"
   config.vm.provision "shell", path: "install.sh"
 
   #Global configure

@@ -1,4 +1,5 @@
 #!/bin/bash
+mv pkg/* /var/cache/pacman/pkg/
 pacman -R virtualbox-guest-utils-nox --noconfirm
 pacman -Syu --noconfirm
 pacman -S base-devel --noconfirm
